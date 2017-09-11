@@ -6,9 +6,23 @@ export const FETCH_WEATHER = 'FETCH_WEATHER';
 //TODO is there a way to implement this without redux-promise?
 export function fetchWeather(city) {
     const url = `${ROOT_URL}&q=${city},us`
+    console.log("Action executing Axios");
     const request = axios.get(url);
-    return {
-        type: FETCH_WEATHER,
-        payload: request
+
+    return function(dispatch) {
+        axios.get(url)
+            .then(function(response){
+                console.log("Dispatching success!");
+                dispatch(
+                    {
+                        type:FETCH_WEATHER,
+                        payload: response
+                    }
+                );
+            });
     }
+    // return {
+    //     type: FETCH_WEATHER,
+    //     payload: request
+    // }
 }
